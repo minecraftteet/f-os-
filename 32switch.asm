@@ -1,7 +1,7 @@
 section .text
-    global _start
+    global _start32
 
-_start:
+_start32:
     ; Set up GDT
     mov eax, gdt_code_segment
     shl eax, 16
@@ -34,11 +34,12 @@ _start:
 
     ; Jump to the new code segment to enter 32-bit mode
     jmp gdt_code_segment_selector:bit32_mode
-
+[bits 32]
 bit32_mode:
     ; Your 32-bit code goes here
-    jmp main32
+    call main32
 
+[bits 16]
 section .data
     gdt_code_segment dw 0, 0, 0, 0
     gdt_data_segment dw 0, 0, 0, 0
@@ -48,5 +49,7 @@ section .data
     gdt_code_segment_selector equ 0x08
     gdt_data_segment_selector equ 0x10
 
+
+[bits 32]
 section .bss
-    cr0 resd 1 ; reserve space for a double-word variable (32 bits)
+   cr0 resd 1 ; reserve space for a double-word variable (32 bits)
