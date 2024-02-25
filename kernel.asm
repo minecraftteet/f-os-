@@ -9,17 +9,15 @@ section .text
 _main:
     ; Set video mode function
     mov ah, 0x00
-    mov al, 0x13 ; Video mode for 640x480, 256 colors
+    mov al, 0x3 ; Video mode for 640x480, 256 colors
     int 0x10
-    mov al, buffer
+    mov al, ">"
     call display_char
     ;mov dx, 0
     ;mov cx, 0
-
 main_loop:
     ; Read a key from the keyboard
     call read_key
-
     ;mov ax, 0x0c07
     ;int 0x10
     ;inc dx
@@ -40,6 +38,8 @@ continue_loop:
     je exit_loop
     cmp al, 08
     je backspace
+    cmp al, "I"
+    je load32k
 
     ; Continue the loop
     jmp main_loop
@@ -74,7 +74,13 @@ move_down_one_line:
     ret
 backspace:
     mov al,0
-    ;call display_char
+    call display_char
     mov al, 08
-    ;call display_char
+    call display_char
     jmp main_loop
+
+load32k:
+    call _init
+
+
+%include "32kernel.asm"
