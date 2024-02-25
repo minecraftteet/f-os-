@@ -48,3 +48,5 @@ section .data
     gdt_code_segment_selector equ 0x08
     gdt_data_segment_selector equ 0x10
 
+section .bss
+    cr0 resd 1 ; reserve space for a double-word variable (32 bits)
