@@ -3,6 +3,7 @@
 section .text
     global _init
 
+%include "32switch.asm"
 _init:
 
 
@@ -26,6 +27,6 @@ main32:
     ; Add any necessary cleanup or further code here
 
     ; Return from main32
-    ret
-
-%include "32switch.asm"
+    jmp loop
+loop:
+    jmp $
