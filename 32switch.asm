@@ -34,19 +34,12 @@ _start32:
 
     ; Jump to the new code segment to enter 32-bit mode
     jmp gdt_code_segment_selector:bit32_mode
-
 [bits 32]
 bit32_mode:
-    ; Set up stack and other necessary initializations
-    mov esp, stack_top
-
-    ; Call the main 32-bit function
+    ; Your 32-bit code goes here
     call main32
 
-    ; Infinite loop
-    jmp $
-
-
+[bits 16]
 section .data
     gdt_code_segment dw 0, 0, 0, 0
     gdt_data_segment dw 0, 0, 0, 0
@@ -56,6 +49,7 @@ section .data
     gdt_code_segment_selector equ 0x08
     gdt_data_segment_selector equ 0x10
 
+
+[bits 32]
 section .bss
-    stack resb 4096  ; 4KB stack space
-    cr0 resd 1       ; reserve space for a double-word variable (32 bits)
+   cr0 resd 1 ; reserve space for a double-word variable (32 bits)
