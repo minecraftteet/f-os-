@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 [bits 16]
 section .data
@@ -24,11 +25,16 @@ section .data
         dw gdt_end - gdt_start - 1  ; GDT limit
         dd gdt_start               ; GDT base
 >>>>>>> parent of 8dfd692 (the 32bit jump is still brockin)
+=======
+>>>>>>> parent of 0305f1f (redowing switchto32.asm)
 section .text
     global _start32
 
 _start32:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 0305f1f (redowing switchto32.asm)
     ; Set up GDT
     mov eax, gdt_code_segment
     shl eax, 16
@@ -52,30 +58,52 @@ _start32:
     lgdt [gdt_pointer]
 
     ; Set PE (Protection Enable) bit in CR0 to switch to 32-bit mode
+<<<<<<< HEAD
 =======
     cli
     lgdt [gdtr]
 >>>>>>> parent of 8dfd692 (the 32bit jump is still brockin)
+=======
+>>>>>>> parent of 0305f1f (redowing switchto32.asm)
     mov eax, cr0
     or eax, 0x80000001
     mov cr0, eax
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 0305f1f (redowing switchto32.asm)
     ; Flush the instruction cache
     nop
 
     ; Jump to the new code segment to enter 32-bit mode
     jmp gdt_code_segment_selector:bit32_mode
+<<<<<<< HEAD
 =======
     jmp gdt_code:main32s
+=======
+>>>>>>> parent of 0305f1f (redowing switchto32.asm)
 
 >>>>>>> parent of 8dfd692 (the 32bit jump is still brockin)
 [bits 32]
 bit32_mode:
+<<<<<<< HEAD
     ; Your 32-bit code goes here
     call main32
 
 [bits 16]
+=======
+    ; Set up stack and other necessary initializations
+    mov esp, stack_top
+
+    ; Call the main 32-bit function
+    call main32
+
+    ; Infinite loop
+    jmp $
+
+
+>>>>>>> parent of 0305f1f (redowing switchto32.asm)
 section .data
     gdt_code_segment dw 0, 0, 0, 0
     gdt_data_segment dw 0, 0, 0, 0
@@ -85,7 +113,13 @@ section .data
     gdt_code_segment_selector equ 0x08
     gdt_data_segment_selector equ 0x10
 
+<<<<<<< HEAD
 
 [bits 32]
 section .bss
    cr0 resd 1 ; reserve space for a double-word variable (32 bits)
+=======
+section .bss
+    stack resb 4096  ; 4KB stack space
+    cr0 resd 1       ; reserve space for a double-word variable (32 bits)
+>>>>>>> parent of 0305f1f (redowing switchto32.asm)
