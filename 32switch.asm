@@ -1,7 +1,34 @@
+<<<<<<< HEAD
+=======
+[bits 16]
+section .data
+    gdt_start:
+        dw 0                ; Null descriptor
+        dw 0                ; Null descriptor
+    gdt_code:
+        dw 0FFFFh           ; Limit (low)
+        dw 0                ; Base (low)
+        db 0                ; Base (mid)
+        db 10011010b        ; Type flags (code, readable, non-conforming, not accessed)
+        db 11001111b        ; Granularity flags (4K pages, 32-bit protected mode)
+        db 0                ; Base (high)
+    gdt_data:
+        dw 0FFFFh           ; Limit (low)
+        dw 0                ; Base (low)
+        db 0                ; Base (mid)
+        db 10010010b        ; Type flags (data, writable, expand-down, not accessed)
+        db 11001111b        ; Granularity flags (4K pages, 32-bit protected mode)
+        db 0                ; Base (high)
+    gdt_end:
+    gdtr:
+        dw gdt_end - gdt_start - 1  ; GDT limit
+        dd gdt_start               ; GDT base
+>>>>>>> parent of 8dfd692 (the 32bit jump is still brockin)
 section .text
     global _start32
 
 _start32:
+<<<<<<< HEAD
     ; Set up GDT
     mov eax, gdt_code_segment
     shl eax, 16
@@ -25,15 +52,24 @@ _start32:
     lgdt [gdt_pointer]
 
     ; Set PE (Protection Enable) bit in CR0 to switch to 32-bit mode
+=======
+    cli
+    lgdt [gdtr]
+>>>>>>> parent of 8dfd692 (the 32bit jump is still brockin)
     mov eax, cr0
     or eax, 0x80000001
     mov cr0, eax
 
+<<<<<<< HEAD
     ; Flush the instruction cache
     nop
 
     ; Jump to the new code segment to enter 32-bit mode
     jmp gdt_code_segment_selector:bit32_mode
+=======
+    jmp gdt_code:main32s
+
+>>>>>>> parent of 8dfd692 (the 32bit jump is still brockin)
 [bits 32]
 bit32_mode:
     ; Your 32-bit code goes here
