@@ -29,5 +29,4 @@ main32:
     ; Return from main32
     jmp loop
 loop:
-    hlt
     jmp $
